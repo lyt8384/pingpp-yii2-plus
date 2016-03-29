@@ -4,6 +4,7 @@ namespace lyt8384\pingpp;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+
 class Pingpp extends Component
 {
     public $live = false;
@@ -23,8 +24,8 @@ class Pingpp extends Component
                 : $this->test_secret_key
         );
 
-        if(!empty($this->private_key_path)){
-            if(file_exists($this->private_key_path))
+        if (!empty($this->private_key_path)) {
+            if (file_exists($this->private_key_path))
                 throw new InvalidConfigException('The private key file not exists.');
             \Pingpp\Pingpp::setPrivateKeyPath($this->private_key_path);
         }
@@ -34,19 +35,19 @@ class Pingpp extends Component
     {
         try {
             if ($this->method) {
-                if (method_exists('\\Pingpp\\Pingpp\\' . $this->method, $method)) {
-                    $func = '\\Pingpp\\Pingpp\\' . $this->method . '::' . $method;
+                if (method_exists('\\Pingpp\\' . $this->method, $method)) {
+                    $func = '\\Pingpp\\' . $this->method . '::' . $method;
                     $ret = forward_static_call_array($func, $arg_array);
                     return $ret;
                 }
             } else {
-                $class = '\\Pingpp\\Pingpp\\' . $method;
+                $class = '\\Pingpp\\' . $method;
                 if (class_exists($class)) {
                     $this->method = $method;
                     return $this;
                 } else {
-                    if (method_exists('\\Pingpp\\Pingpp\Charge', $method)) {
-                        $func = '\\Pingpp\\Pingpp\Charge::' . $method;
+                    if (method_exists('\\Pingpp\\Charge', $method)) {
+                        $func = '\\Pingpp\\Charge::' . $method;
                         $ret = forward_static_call_array($func, $arg_array);
                         return $ret;
                     }
@@ -77,9 +78,9 @@ class Pingpp extends Component
     public function notice()
     {
         $data_raw = Yii::$app->request->getRawBody();
-        $data = json_decode($data_raw,true);
+        $data = json_decode($data_raw, true);
         if (!isset($data['type'])) {
-            Yii::$app->end(400,'fail');
+            Yii::$app->end(400, 'fail');
         }
 
         if (!empty($this->pub_key_path) && file_exists($this->pub_key_path)) {
@@ -89,7 +90,7 @@ class Pingpp extends Component
                 trim(file_get_contents($this->pub_key_path)),
                 OPENSSL_ALGO_SHA256);
             if ($result !== 1) {
-                Yii::$app->end(403,'fail');
+                Yii::$app->end(403, 'fail');
             }
         }
         return $data;
