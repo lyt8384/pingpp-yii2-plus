@@ -1,0 +1,24 @@
+{
+    "name": "lyt8384/pingpp-yii2-plus",
+    "description": "Simple Pingpp wrapper for Yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2","Pingpp","Pingxx"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lyt8384",
+            "email": "lyt8384@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "yiisoft/yii2": "*",
+        "pingplusplus/pingpp-php": ">=2.1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "lyt8384\\pingpp\\": "src/"
+        }
+    }
+}
