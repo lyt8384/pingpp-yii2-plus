@@ -4,6 +4,7 @@ namespace lyt8384\pingpp;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
+use yii\web\HttpException;
 
 class Pingpp extends Component
 {
@@ -55,6 +56,7 @@ class Pingpp extends Component
             }
         } catch (\Pingpp\Error\Base $e) {
             $this->err = $e;
+            Yii::warning($e->getHttpBody(),'pingpp');
             return false;
         }
         return null;
@@ -80,7 +82,8 @@ class Pingpp extends Component
         $data_raw = Yii::$app->request->getRawBody();
         $data = json_decode($data_raw, true);
         if (!isset($data['type'])) {
-            Yii::$app->end(400, 'fail');
+            Yii::warning('Pingpp webhooks received to a unknown callback. Raw:' . $data_raw, 'pingpp');
+            throw new HttpException(400,'fail');
         }
 
         if (!empty($this->pub_key_path) && file_exists($this->pub_key_path)) {
@@ -90,7 +93,8 @@ class Pingpp extends Component
                 trim(file_get_contents($this->pub_key_path)),
                 OPENSSL_ALGO_SHA256);
             if ($result !== 1) {
-                Yii::$app->end(403, 'fail');
+                Yii::warning('Pingpp webhooks received to a unauthenticated callback. Raw:' . $data_raw, 'pingpp');
+                throw new HttpException(403,'fail');
             }
         }
         return $data;
