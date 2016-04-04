@@ -82,4 +82,7 @@ class SomeClass extends Controller {
 # 接收 Webhooks 通知
 直接调用`Yii::$app->pingpp->notice()`，若验证成功,会返回通知的`array`结构数据,若失败直接弹出错Http误回Pingpp。并产生一条Warning级别的错误日志。
 
+# IDE自动提示
+可以按照 [IDE autocompletion for custom components](https://github.com/samdark/yii2-cookbook/blob/master/book/ide-autocompletion.md) 设置，在`Yii.php`扩展的映射下面增加`@property \lyt8384\pingpp\Pingpp $pingpp Simple Pingpp wrapper for Yii2`
+
 其他使用方法见官方文档[PingPlusPlus](https://github.com/PingPlusPlus/pingpp-php)

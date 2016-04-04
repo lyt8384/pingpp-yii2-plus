@@ -6,6 +6,20 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\web\HttpException;
 
+/**
+ * Class Pingpp
+ * @package lyt8384\pingpp
+ * @property \Pingpp\Pingpp $Pingpp Ping++设置类
+ * @property \Pingpp\Charge $Charge 支付对象
+ * @property \Pingpp\RedEnvelope $RedEnvelope 微信红包对象
+ * @property \Pingpp\WxpubOAuth $WxpubOAuth 微信公众号对象
+ * @property \Pingpp\Event $Event Event事件对象
+ * @property \Pingpp\Transfer $Transfer 微信企业付款对象
+ * @property \Pingpp\CardInfo $CardInfo 卡片信息对象
+ * @property \Pingpp\Customer $Customer 顾客对象
+ * @property \Pingpp\Token $Token Token对象
+ */
+
 class Pingpp extends Component
 {
     public $live = false;
@@ -77,6 +91,11 @@ class Pingpp extends Component
         return $this->err;
     }
 
+    /**
+     * Webhooks接收类
+     * @return mixed
+     * @throws HttpException
+     */
     public function notice()
     {
         $data_raw = Yii::$app->request->getRawBody();
