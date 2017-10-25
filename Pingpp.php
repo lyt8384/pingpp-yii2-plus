@@ -40,7 +40,7 @@ class Pingpp extends Component
         );
 
         if (!empty($this->private_key_path)) {
-            if (file_exists($this->private_key_path))
+            if (!file_exists($this->private_key_path))
                 throw new InvalidConfigException('The private key file not exists.');
             \Pingpp\Pingpp::setPrivateKeyPath($this->private_key_path);
         }
